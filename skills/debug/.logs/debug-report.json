@@ -1,0 +1,23 @@
+{
+  "sessionStart": "2026-08-13T12:39:05.160Z",
+  "lastLogTime": "12:48:12.476",
+  "totalLogsCount": 4578,
+  "categories": {
+    "LOG": 4576,
+    "ERROR": 2
+  },
+  "errors": [
+    {
+      "message": "[ERROR] \"[vite]\" \"Failed to reload /src/app/styles/index.css. This could be due to syntax errors or importing non-existent modules. (see errors above)\"",
+      "count": 1,
+      "lastSeen": "12:47:56.246"
+    },
+    {
+      "message": "[ERROR] \"[vite]\" {}",
+      "count": 1,
+      "lastSeen": "12:47:57.873"
+    }
+  ],
+  "eventLeaks": [],
+  "renderStorms": {}
+}
