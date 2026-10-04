@@ -1,0 +1,409 @@
+:root {
+  --bg-color: #f4f5f7;
+  --panel-bg: #ffffff;
+  --text-color: #172b4d;
+  --border-color: #dfe1e6;
+  --hover-bg: #ebecf0;
+  --selected-bg: #deebff;
+  --meta-color: #6b778c;
+  --btn-bg: #0052cc;
+  --btn-text: #ffffff;
+  --recent-bg: rgba(0, 150, 136, 0.08);
+  --recent-border: #009688;
+  --synced-bg: rgba(144, 19, 254, 0.1);
+}
+body.dark-mode {
+  --bg-color: #1d2125;
+  --panel-bg: #22272b;
+  --text-color: #b6c2cf;
+  --border-color: #444c56;
+  --hover-bg: #2c333a;
+  --selected-bg: #1c2b41;
+  --meta-color: #8c9bab;
+  --btn-bg: #579dff;
+  --btn-text: #1d2125;
+  --recent-bg: rgba(0, 190, 170, 0.12);
+  --recent-border: #00beaa;
+  --synced-bg: rgba(189, 88, 255, 0.2);
+}
+body {
+  font-family: -apple-system, BlinkMacSystemFont, "Segoe UI", Roboto, sans-serif;
+  margin: 0;
+  padding: 0;
+  background-color: var(--bg-color);
+  color: var(--text-color);
+  display: flex;
+  height: 100vh;
+  font-size: 13px;
+}
+.sidebar {
+  width: 320px;
+  min-width: 200px;
+  max-width: 600px;
+  background: var(--panel-bg);
+  border-right: 1px solid var(--border-color);
+  overflow-y: auto;
+  overflow-x: hidden;
+  padding: 10px;
+  box-sizing: border-box;
+  display: flex;
+  flex-direction: column;
+  gap: 8px;
+  flex-shrink: 0;
+}
+.resizer {
+  width: 4px;
+  cursor: col-resize;
+  background-color: transparent;
+  flex-shrink: 0;
+  transition: background-color 0.2s;
+}
+.resizer:hover,
+.resizer.dragging {
+  background-color: var(--btn-bg);
+}
+.content {
+  flex: 1;
+  overflow-y: auto;
+  background: var(--panel-bg);
+  box-sizing: border-box;
+  position: relative;
+}
+.content-header {
+  position: sticky;
+  top: 0;
+  background: var(--panel-bg);
+  z-index: 100;
+  padding: 15px 15px 10px 15px;
+  border-bottom: 1px solid var(--border-color);
+}
+.content-body {
+  padding: 15px;
+}
+h2,
+h3 {
+  margin-top: 0;
+  margin-bottom: 8px;
+  font-size: 18px;
+}
+input[type="text"] {
+  width: 100%;
+  padding: 6px;
+  border: 1px solid var(--border-color);
+  border-radius: 3px;
+  box-sizing: border-box;
+  background: var(--bg-color);
+  color: var(--text-color);
+}
+button {
+  background: var(--btn-bg);
+  color: var(--btn-text);
+  border: none;
+  padding: 4px 8px;
+  border-radius: 3px;
+  cursor: pointer;
+  font-size: 12px;
+  font-weight: 500;
+  display: inline-flex;
+  align-items: center;
+  gap: 4px;
+}
+button svg {
+  pointer-events: none;
+}
+button:hover {
+  opacity: 0.9;
+}
+button.outline {
+  background: transparent;
+  border: 1px solid var(--border-color);
+  color: var(--text-color);
+  padding: 4px;
+}
+button.outline.active {
+  background: var(--hover-bg);
+  border-color: var(--btn-bg);
+}
+.toolbar {
+  display: flex;
+  gap: 4px;
+  justify-content: space-between;
+}
+.sidebar ul {
+  list-style: none;
+  padding: 0;
+  margin: 0;
+}
+.html-view ul {
+  margin: 1em 0;
+  padding-left: 40px;
+  list-style-type: disc;
+}
+.html-view ol {
+  margin: 1em 0;
+  padding-left: 40px;
+  list-style-type: decimal;
+}
+.tree-node {
+  padding-left: 10px;
+}
+.tree-node > ul {
+  display: none;
+  border-left: 1px solid var(--border-color);
+  margin-left: 5px;
+}
+.tree-node.expanded > ul {
+  display: block;
+}
+.tree-item {
+  padding: 2px 4px;
+  cursor: pointer;
+  border-radius: 3px;
+  margin-bottom: 1px;
+  display: flex;
+  flex-direction: column;
+}
+.tree-item:hover {
+  background-color: var(--hover-bg);
+}
+.tree-item.selected {
+  background-color: var(--selected-bg);
+  font-weight: 500;
+}
+.tree-item.recent-update {
+  background-color: var(--recent-bg);
+}
+.tree-item.recent-update:hover {
+  background-color: var(--hover-bg);
+}
+.tree-item.recent-update.selected {
+  background-color: var(--selected-bg);
+}
+.tree-item.just-synced {
+  background-color: var(--synced-bg);
+  border-left: 3px solid #9013fe;
+  padding-left: 1px;
+}
+.tree-item.just-synced:hover {
+  background-color: var(--hover-bg);
+}
+.tree-item.just-synced.selected {
+  background-color: var(--selected-bg);
+}
+.tree-item-title {
+  display: flex;
+  align-items: center;
+  justify-content: space-between;
+  gap: 4px;
+}
+.tree-item-title-left {
+  display: flex;
+  align-items: center;
+  gap: 4px;
+  flex: 1;
+  overflow: hidden;
+  white-space: nowrap;
+  text-overflow: ellipsis;
+}
+.tree-item-badges {
+  display: flex;
+  gap: 4px;
+}
+.toggle-btn {
+  cursor: pointer;
+  display: inline-flex;
+  align-items: center;
+  justify-content: center;
+  width: 14px;
+  height: 14px;
+  user-select: none;
+  color: var(--meta-color);
+  flex-shrink: 0;
+}
+.toggle-btn svg {
+  width: 10px;
+  height: 10px;
+  fill: currentColor;
+}
+.meta {
+  font-size: 11px;
+  color: var(--meta-color);
+  margin-top: 2px;
+}
+.html-view {
+  border: 1px solid var(--border-color);
+  padding: 15px;
+  border-radius: 3px;
+  min-height: 400px;
+  background: var(--bg-color);
+  color: var(--text-color);
+  font-size: 14px;
+}
+.loader {
+  display: none;
+  margin-top: 20px;
+  font-weight: bold;
+}
+.badge {
+  background: var(--btn-bg);
+  color: var(--btn-text);
+  padding: 1px 4px;
+  border-radius: 8px;
+  font-size: 9px;
+  line-height: 1;
+  display: inline-block;
+}
+.badge-conflict {
+  background: #de350b;
+  color: white;
+}
+.history-panel {
+  margin-top: 15px;
+  background: var(--bg-color);
+  padding: 10px;
+  border-radius: 3px;
+}
+.history-item {
+  margin-bottom: 5px;
+  font-size: 12px;
+  border-left: 3px solid var(--btn-bg);
+  padding-left: 8px;
+}
+.snippet {
+  font-size: 11px;
+  color: var(--text-color);
+  opacity: 0.8;
+  margin-top: 2px;
+  font-style: italic;
+}
+
+/* Confluence Styles */
+.confluenceTable,
+table {
+  border-collapse: collapse;
+  width: 100%;
+  margin: 10px 0;
+  border: 1px solid var(--border-color);
+  background: var(--panel-bg);
+}
+.confluenceTable th,
+table th {
+  background-color: var(--hover-bg);
+  border: 1px solid var(--border-color);
+  padding: 6px 10px;
+  text-align: left;
+  font-weight: 600;
+}
+.confluenceTable td,
+table td {
+  border: 1px solid var(--border-color);
+  padding: 6px 10px;
+}
+.confluence-information-macro {
+  border: 1px solid var(--border-color);
+  padding: 10px;
+  border-radius: 3px;
+  margin: 10px 0;
+  background: var(--hover-bg);
+}
+.confluence-information-macro-information {
+  border-left: 4px solid #0052cc;
+}
+.confluence-information-macro-warning {
+  border-left: 4px solid #ff991f;
+}
+pre {
+  background: var(--hover-bg);
+  padding: 10px;
+  border-radius: 3px;
+  overflow-x: auto;
+}
+code {
+  font-family: monospace;
+  background: var(--hover-bg);
+  padding: 2px 4px;
+  border-radius: 3px;
+}
+pre code {
+  padding: 0;
+  background: transparent;
+  border-radius: 0;
+}
+
+/* Loading and Layout */
+.icon {
+  width: 14px;
+  height: 14px;
+  fill: currentColor;
+}
+
+.search-wrapper {
+  position: relative;
+  width: 100%;
+  margin-top: 4px;
+}
+.search-wrapper input {
+  padding-right: 25px;
+}
+.clear-search {
+  position: absolute;
+  right: 5px;
+  top: 50%;
+  transform: translateY(-50%);
+  cursor: pointer;
+  color: var(--meta-color);
+  display: none;
+}
+.clear-search:hover {
+  color: var(--text-color);
+}
+@keyframes highlight {
+  0% {
+    background-color: #fffae6;
+  }
+  100% {
+    background-color: var(--selected-bg);
+  }
+}
+@keyframes spin {
+  100% {
+    transform: rotate(360deg);
+  }
+}
+.spinning {
+  animation: spin 1s linear infinite;
+}
+#resultModal ul {
+  padding-left: 20px;
+  max-height: 200px;
+  overflow-y: auto;
+  font-size: 13px;
+  margin: 10px 0 0 0;
+}
+#resultModal li {
+  margin-bottom: 4px;
+}
+
+/* HTML Diff styles */
+.html-view ins.diff-ins,
+.html-view ins {
+  background-color: rgba(46, 160, 67, 0.3);
+  text-decoration: none;
+  color: inherit;
+  border-radius: 2px;
+}
+.html-view del.diff-del,
+.html-view del {
+  background-color: rgba(248, 81, 73, 0.3);
+  text-decoration: line-through;
+  color: inherit;
+  border-radius: 2px;
+}
+body.dark-mode .html-view ins.diff-ins,
+body.dark-mode .html-view ins {
+  background-color: rgba(46, 160, 67, 0.4);
+}
+body.dark-mode .html-view del.diff-del,
+body.dark-mode .html-view del {
+  background-color: rgba(248, 81, 73, 0.4);
+}

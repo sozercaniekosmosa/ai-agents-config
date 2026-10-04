@@ -1,0 +1,207 @@
+<!doctype html>
+<html lang="ru">
+  <head>
+    <meta charset="UTF-8" />
+    <title>Local Confluence DB Viewer</title>
+    <link rel="stylesheet" href="/viewer.css" />
+  </head>
+  <body>
+    <div class="sidebar">
+      <div class="toolbar">
+        <div style="display: flex; gap: 4px">
+          <button id="themeToggle" class="outline" title="Сменить тему">
+            <svg class="icon"><use href="/icons.svg#icon-theme"></use></svg>
+          </button>
+          <button id="syncBtn">
+            <svg class="icon"><use href="/icons.svg#icon-sync"></use></svg>
+          </button>
+        </div>
+        <div style="display: flex; gap: 4px">
+          <button id="expandAllBtn" class="outline" title="Развернуть все">
+            <svg class="icon"><use href="/icons.svg#icon-expand-all"></use></svg>
+          </button>
+          <button id="collapseAllBtn" class="outline" title="Свернуть все">
+            <svg class="icon"><use href="/icons.svg#icon-collapse-all"></use></svg>
+          </button>
+          <button id="sortRecentBtn" class="outline" title="Сортировать по дате">
+            <svg class="icon"><use href="/icons.svg#icon-sort-recent"></use></svg>
+          </button>
+        </div>
+      </div>
+      <div class="search-wrapper">
+        <input type="text" id="searchInput" placeholder="Поиск документов..." />
+        <span class="clear-search" id="clearSearchBtn">✖</span>
+      </div>
+      <div id="treeContainer" style="overflow-y: auto; flex: 1; margin-top: 5px">
+        <ul id="pageList"></ul>
+      </div>
+    </div>
+    <div class="resizer" id="dragResizer"></div>
+    <div class="content">
+      <div class="content-header">
+        <div style="display: flex; justify-content: space-between; align-items: flex-start">
+          <h2 id="pageTitle" style="margin-bottom: 4px">Выберите документ</h2>
+          <div style="display: flex; gap: 4px; align-items: center">
+            <div
+              id="diffModeToggle"
+              style="
+                display: none;
+                border: 1px solid var(--border-color);
+                border-radius: 3px;
+                overflow: hidden;
+                height: 26px;
+                align-items: center;
+                margin-right: 8px;
+              "
+            >
+              <button
+                id="diffModeCode"
+                style="
+                  background: transparent;
+                  color: var(--meta-color);
+                  border-radius: 0;
+                  border: none;
+                  padding: 0 10px;
+                  font-size: 12px;
+                  height: 100%;
+                  border-right: 1px solid var(--border-color);
+                  cursor: pointer;
+                "
+              >
+                Код
+              </button>
+              <button
+                id="diffModeRender"
+                style="
+                  background: var(--hover-bg);
+                  color: var(--text-color);
+                  border-radius: 0;
+                  border: none;
+                  padding: 0 10px;
+                  font-size: 12px;
+                  height: 100%;
+                  cursor: pointer;
+                "
+              >
+                Рендер
+              </button>
+            </div>
+            <select
+              id="historySelect"
+              style="
+                display: none;
+                padding: 4px;
+                border: 1px solid var(--border-color);
+                border-radius: 3px;
+                background: var(--bg-color);
+                color: var(--text-color);
+                font-size: 12px;
+                max-width: 300px;
+              "
+            ></select>
+            <button
+              id="pushPatchBtn"
+              style="display: none; background: #00875a"
+              title="Восстановить версию (Накатить на сервер)"
+            >
+              <svg class="icon"><use href="/icons.svg#icon-push"></use></svg>
+            </button>
+            <button id="deletePatchBtn" style="display: none" class="outline" title="Удалить патч">
+              <svg class="icon"><use href="/icons.svg#icon-delete"></use></svg>
+            </button>
+            <button id="locateBtn" class="outline" style="display: none" title="Найти в дереве">
+              <svg class="icon"><use href="/icons.svg#icon-locate"></use></svg>
+            </button>
+            <button id="copyLinkBtn" style="display: none" title="Копировать (Клик) / Открыть (Двойной клик)">
+              <svg class="icon"><use href="/icons.svg#icon-copy"></use></svg>
+            </button>
+          </div>
+        </div>
+        <div id="pageMeta" class="meta" style="margin-bottom: 0"></div>
+      </div>
+      <div class="content-body">
+        <div class="loader" id="loader">Загрузка... Пожалуйста, подождите.</div>
+        <div class="html-view" id="pageContent" style="display: none"></div>
+        <div
+          id="diffView"
+          style="
+            display: none;
+            margin-top: 15px;
+            border-radius: 3px;
+            background: var(--bg-color);
+            color: var(--text-color);
+          "
+        ></div>
+      </div>
+    </div>
+
+    <!-- Custom Confirm Modal -->
+    <div
+      id="confirmModal"
+      style="
+        display: none;
+        position: fixed;
+        top: 0;
+        left: 0;
+        width: 100%;
+        height: 100%;
+        background: rgba(0, 0, 0, 0.5);
+        z-index: 1000;
+        align-items: center;
+        justify-content: center;
+      "
+    >
+      <div
+        style="
+          background: var(--panel-bg);
+          padding: 20px;
+          border-radius: 4px;
+          width: 300px;
+          box-shadow: 0 4px 12px rgba(0, 0, 0, 0.15);
+        "
+      >
+        <h3 id="confirmModalTitle" style="margin-top: 0">Синхронизировать с Confluence?</h3>
+        <p id="confirmModalDesc" style="margin-bottom: 20px">Это загрузит последние изменения с удаленного сервера.</p>
+        <div style="display: flex; justify-content: flex-end; gap: 8px">
+          <button id="modalCancelBtn" class="outline">Отмена</button>
+          <button id="modalConfirmBtn">Да</button>
+        </div>
+      </div>
+    </div>
+
+    <!-- Result Modal -->
+    <div
+      id="resultModal"
+      style="
+        display: none;
+        position: fixed;
+        top: 0;
+        left: 0;
+        width: 100%;
+        height: 100%;
+        background: rgba(0, 0, 0, 0.5);
+        z-index: 1000;
+        align-items: center;
+        justify-content: center;
+      "
+    >
+      <div
+        style="
+          background: var(--panel-bg);
+          padding: 20px;
+          border-radius: 4px;
+          width: 350px;
+          box-shadow: 0 4px 12px rgba(0, 0, 0, 0.15);
+        "
+      >
+        <h3 style="margin-top: 0">Результаты синхронизации</h3>
+        <div id="resultModalContent" style="margin-bottom: 20px"></div>
+        <div style="display: flex; justify-content: flex-end">
+          <button id="resultModalOkBtn">Закрыть</button>
+        </div>
+      </div>
+    </div>
+
+    <script src="/viewer.js"></script>
+  </body>
+</html>

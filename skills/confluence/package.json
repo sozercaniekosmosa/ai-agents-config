@@ -1,0 +1,8 @@
+{
+  "name": "confluence-local-ui",
+  "version": "1.0.0",
+  "private": true,
+  "scripts": {
+    "start": "start_ui.bat"
+  }
+}
