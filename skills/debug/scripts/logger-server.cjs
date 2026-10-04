@@ -144,7 +144,7 @@ function updateReportStats(message, count, timestamp) {
 
 function generateSummaryMd() {
   try {
-    let md = `# Отчет сессии отладки Lab2d (Debug Session Summary)\n\n`;
+    let md = `# Отчет сессии отладки (Debug Session Summary)\n\n`;
     md += `- **Старт сессии:** ${reportData.sessionStart}\n`;
     md += `- **Последняя активность:** ${reportData.lastLogTime || 'нет'}\n`;
     md += `- **Всего логов обработано:** ${reportData.totalLogsCount}\n\n`;

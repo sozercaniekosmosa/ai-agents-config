@@ -67,9 +67,9 @@ description: >
 - **Было**:
   ```text
   TypeError: Cannot read properties of undefined (reading 'map')
-      at renderList (d:\Dev\JS\Prj\2026\lab2d\prj\src\components\List.tsx:15:23)
-      at Object.fn (d:\Dev\JS\Prj\2026\lab2d\prj\node_modules\react-dom\cjs\react-dom.development.js:10523:12)
-      at runEffects (d:\Dev\JS\Prj\2026\lab2d\prj\node_modules\react-dom\cjs\react-dom.development.js:12003:9)
+      at renderList (src/components/List.tsx:15:23)
+      at Object.fn (node_modules/react-dom/cjs/react-dom.development.js:10523:12)
+      at runEffects (node_modules/react-dom/cjs/react-dom.development.js:12003:9)
   ```
 - **Стало**:
   `src/components/List.tsx:L15 → TypeError: Cannot read properties of undefined (reading 'map')`

@@ -589,11 +589,10 @@ function generateComprehensiveDeclaration(pluginDir, entryFile, sources) {
 
   // 2. Detect model exports used (types, interfaces, functions, constants, contexts)
   const knownModelTypes = new Set([
-    'SvgEditorPlugin', 'SvgItem', 'PluginContext', 'Matrix2D', 'Vertex',
-    'PathPoint', 'GeometryAdapter', 'AnimationChannelAdapter', 'SkeletonAdapter',
-    'ColorAdapter', 'AnimatedProperties', 'AutokeyAdapter', 'SvgData', 'Transform',
-    'Hotkey', 'Modifiers', 'SidePanelSection', 'SidePanelConfig', 'SelectionFilter',
-    'SelectionAdapter', 'HistoryStore', 'CameraState', 'SnapTarget', 'SnapGuideResult'
+    'AppPlugin', 'PluginContext', 'Matrix2D', 'Vertex', 'Transform',
+    'GeometryAdapter', 'AnimationChannelAdapter', 'ColorAdapter', 'SelectionAdapter',
+    'Hotkey', 'Modifiers', 'SidePanelConfig', 'SelectionFilter',
+    'HistoryStore', 'CameraState', 'SnapTarget', 'StoreState'
   ]);
 
   // Dynamically discover all model exports from all model files (types.ts, utils.ts, context.ts, matrix.ts, etc.)
