@@ -57,3 +57,7 @@ tmp/
 # Custom Skill & Archive Backups
 .archives/
 .cache/
+
+# Project-specific rules (local only)
+rules/*
+
