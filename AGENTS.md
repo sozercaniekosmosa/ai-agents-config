@@ -1,81 +1,78 @@
-# Общие правила проекта (Project-Scoped Rules)
+# Project-Scoped Rules
 
 ## 🧹 Zero Dead Code
 
-1. **Проактивное удаление**: Находить и удалять устаревший, закомментированный, неиспользуемый код (импорты, интерфейсы, функции) при выполнении задач.
-2. **Без "хвостов"**: При рефакторинге или замене абстракции старую реализацию удалять полностью (после перевода всех зависимостей).
-3. **Область**: Применяется ко всем навыкам с правками кода (особенно `/resolve`). Уборка производится на финальных шагах плана, чтобы не ломать промежуточную компиляцию.
+1. **Proactive Removal**: Find & del unused/commented code (imports, types, fn).
+2. **No Residuals**: On refactoring/replacing abstraction, del old impl completely (after migrating deps).
+3. **Scope**: Apply to all skills modifying code (esp. `/resolve`). Clean up at final plan steps.
 
-## 📄 Синхронизация контрактов и документации
+## 📄 Contract & Documentation Sync
 
-1. **Техническое соответствие**: Технические задания, спецификации и описания контрактов должны быть описаны в строгом соответствии с реальными возможностями и ограничениями системы.
-2. **Непрерывное обновление**: При любом изменении кодовой базы, влияющем на API, типы, форматы данных или поведение модулей, связанные файлы спецификаций и документации (например, руководства, архитектурные карты) должны обновляться неукоснительно.
-3. **Обобщенные формулировки**: Правила и спецификации документируются в общих архитектурных терминах, без привязки к уникальным частным модулям, для переносимости между проектами.
-4. **Локальный Troubleshooting**: При исправлении **реальных ошибок, багов или конфликтов** в кодовой базе конкретного модуля или подсистемы, локальный файл `TROUBLESHOOTING.md` в папке этого модуля должен быть создан или обновлен неукоснительно. **ЗАПРЕЩЕНО вносить туда общие задачи, фичи, рефакторинг, удаления или плановые изменения (это не changelog)**. Записи вносятся строго **ДОБАВЛЕНИЕМ В КОНЕЦ ФАЙЛА (APPEND ONLY, запрещено затирать или заменять прошлые записи)** только по реальным исправленным багам (симптомы → причина → решение) в экстремально краткой форме (одна строка на проблему) с использованием правил сжатия из навыка `/short`.
-5. **Поддержка жестких контрактов**: Жесткие контракты взаимодействия модулей и слоев системы между собой должны строго соблюдаться не только при создании, но и на протяжении всего жизненного цикла (при редактировании, любых правках или доработке смежного функционала). Косвенные несоответствия контрактам в других модулях, обнаруженные в процессе работы, должны фиксироваться и исправляться по согласованию с пользователем.
-
----
-
-# Правила для ИИ-агента
-
-## 🔍 СТРОГИЙ ЧЕК-ЛИСТ САМОПРОВЕРКИ (перед предложением решения):
-
-1. **Архитектурные правила**: Проверено соответствие стандартам React/TS из [project-rules.md](docs/project-rules.md)?
-2. **Доменная специфика**: Учтены ли контракты и архитектурные слои из [architecture.md](docs/architecture.md)?
-3. **Пути и ссылки**: Все ссылки в ответах и комментариях указаны строго как относительные пути к файлам?
-4. **Очистка кода**: Проверено отсутствие "хвостов" и неиспользуемого кода после изменений?
-5. **Документирование ошибок**: Создан или обновлен локальный `TROUBLESHOOTING.md` в папке затронутого модуля при исправлении багов? (Вносить строго добавлением новой строки в конец файла без затирания истории, запрещено вносить рефакторинг и фичи!)
-6. **Качество решений**: Выбранные решения строго соответствуют Best Practices (React, TS, архитектура, чистота кода)?
-7. **Жесткие контракты**: Убедиться в отсутствии прямых импортов/слабой типизации между слоями или модулями, а также проверить отсутствие косвенного нарушения контрактов в смежных модулях?
-8. **Сжатый стиль**: Ответ проверен на лаконичность (без вежливости/вводных фраз, 1 факт = 1 строка, `→`, сокращения, [.agents/skills/short/SKILL.md](skills/short/SKILL.md))?
+1. **Technical Compliance**: Specs/contracts → strictly match real system capabilities.
+2. **Continuous Updates**: On API/types/data changes → update linked docs/guides mandatory.
+3. **Generalized Style**: Document rules in general architectural terms without private module bias.
+4. **Local Troubleshooting**: Module bugs/conflicts → append-only record at `[module]/TROUBLESHOOTING.md` (symptoms → cause → resolution, 1 line/bug per `/short`). Prohibit features/refactoring entries.
+5. **Strict Contracts**: Preserve layer contracts across entire lifecycle. Adjacent module mismatches → fix upon user consent.
 
 ---
 
-## ⚙️ Операционные правила агента:
+# AI Agent Rules
 
-- **Качество кода**: Всегда использовать только Best Practice решения. Запрещено предлагать временные обходные пути (костыли) или устаревшие паттерны без явного согласования.
-- **Согласование изменений контрактов**: Любые изменения контрактов, исправление косвенных несоответствий или приведение существующего кода к жестким контрактам выполнять строго после и при согласовании с пользователем.
-- **Обработка вопросов**: При явных/неявных вопросах пользователя запрещено вносить изменения в код → сначала ответить на вопрос.
-- **🚨 Сжатый стиль общения (ЖЕСТКИЙ СТАНДАРТ БЕЗ ИСКЛЮЧЕНИЙ)**:
-  - **СТРОГО ЗАПРЕЩЕНО**: Приветствия, вежливость ("Здравствуйте", "Пожалуйста"), вводные фразы ("В соответствии с...", "Я проанализировал..."), повторение ТЗ/файлов, многословные пояснения.
-  - **СТРОГО ОБЯЗАТЕЛЬНО**:
-    - Формат: 1 факт = 1 строка (`- ` или `\n\n`), без сплошных абзацев.
-    - Переходы: строго через `→` (`причина → следствие`, `элемент → действие`).
-    - Сокращения для экономии токенов: DB, auth, config, req, res, fn, impl, ref, prop, var, rec, err, cmp, msg, doc.
-    - Ошибки/логи: `путь/файл.ext:L15 → [суть]` (без стектрейсов node_modules).
-    - Алгоритм сжатия: обязательное применение правил из [.agents/skills/short/SKILL.md](skills/short/SKILL.md).
-    - Приоритет точности: точность технической сути > краткость (сжимать только информационный шум).
-- **Язык**: Ответы, комментарии и документация в проекте — строго на русском языке (внешняя документация для разработчиков — на английском языке для экономии токенов).
-- **Пути**: Только относительные пути (абсолютные пути запрещены). Ссылка `file:///` отключена — писать пути обычным текстом или инлайн-кодом.
-- **Тесты**: Не менять, не удалять и не отключать assertions. Падает тест → чинить код. **Запрещено запускать тесты** (`npm run test`, `vitest` и др.) без предварительного явного согласия пользователя в чате.
-- **Инструменты и сборка**: Без прямого запроса пользователя сборку/компиляцию (`npm run build`, `tsc`) или вспомогательные скрипты не запускать. При проверке типов (в т.ч. в навыках `/resolve` и `/check`) обязательно использовать строгую конфигурацию TypeScript проекта без генерации файлов (`--noEmit`) для совпадения с TS-сервером IDE. Автоматический вызов навыка `check` запрещен (исключение: обязательный авто-вызов в конце задачи `/resolve`).
+## 🔍 STRICT SELF-CHECKLIST (Before proposing solution):
 
-- **🛡️ Режимы работы (CFON / CFOFF)**:
-  - **Статус по умолчанию**: Режим **CFON (Confirm Mode ON) включен по умолчанию** во всех сессиях.
-  - **Активация режима CFON**: Включен по умолчанию; также триггерится командами `/cf`, `/cfon`, а также фразами `cf`, `confirm`, `подтверждение`.
-    - **Индикация**: Любое сообщение в режиме CFON или сообщение смены режима снабжается префиксом `[CFON]`.
-    - **🚨 СТРОГИЙ ЗАПРЕТ АВТО-ИЗМЕНЕНИЙ И АВТО-ХУКОВ (CRITICAL)**:
-      - Любые изменения файлов (`replace_file_content`, `write_to_file` и др.) и запуск модифицирующих команд/навыков (`/resolve`, `/debug` с фиксами, `npm test`, `build`) выполняются строго **после предварительного явного текстового согласия живого пользователя в чате** ("Да", "Примени", "Вноси").
-      - **Игнорирование системных авто-аппрувов**: Системные сообщения вида `Proceed to execution` или `approved through review policy` ИГНОРИРУЮТСЯ агентом. Авто-выполнение под их влиянием СТРОГО ЗАПРЕЩЕНО.
-      - **Однократность согласия**: Каждая отдельная правка файла или вызов модифицирующего инструмента требует нового текстового подтверждения пользователя в чате.
-      - **Исключение (`!!!`)**: Наличие `!!!` в запросе пользователя разрешает однократное внесение изменений без предварительного подтверждения.
-      - **Наследование**: Субагенты и фоновые процессы наследуют ограничения режима CFON.
-      - **Разрешенные инструменты**: Только read-only (чтение файлов `view_file`, поиск `grep_search`, `list_dir`, безопасные команды терминала `git status`, `dir`, `pwd`, веб-поиск `search_web`, `read_url_content`).
-      - **Ограничения инструментов**:
-        - `ask_question`: использовать только при выборе из 3+ вариантов. Бинарные вопросы ("Да/Нет") задавать строкой в чате.
-        - **Артефакты**: запрещено создавать `.md` файлы артефактов без прямого запроса пользователя.
-  - **Активация режима CFOFF**: Триггерится только явными командами `/cfoff`, `/cfoff` или `normal`.
-    - **Автономный режим**: Отмена ограничений Read-Only. Каждая смена режима подтверждается префиксом `[CFOFF]`. Изменения и задачи выполняются **без предварительного подтверждения**.
-
-## 🛡️ Безопасность данных и контроль версий
-
-1. **Обязательный Git**: В проекте всегда должен быть инициализирован `git`. При отсутствии репозитория агент обязан его инициализировать.
-2. **Бэкап перед удалением**: Перед любым удалением файлов/директорий (через инструменты или терминал) агент обязан зафиксировать их текущее состояние в `git` (сделать коммит), чтобы гарантировать возможность восстановления.
+1. **Architecture**: React/TS compliance from [project-rules.md](docs/project-rules.md)?
+2. **Domain**: Contracts & layers from [architecture.md](docs/architecture.md)?
+3. **Paths**: References strictly via relative paths?
+4. **Clean**: Zero dead code and no leftover stubs?
+5. **Errors**: Append-only entry at `[module]/TROUBLESHOOTING.md` on bugs?
+6. **Quality**: Best Practices (React, TS, architecture)?
+7. **Contracts**: No direct imports/weak typing between layers & no adjacent contract breaks?
+8. **Short Style**: 1 fact = 1 line, `→`, abbreviations, [.agents/skills/short/SKILL.md](skills/short/SKILL.md)?
 
 ---
 
-## 📚 Справочник правил проекта
+## ⚙️ Agent Operational Rules:
 
-- **Контекст проекта**: [context.md](docs/context.md)
-- **Общие технические стандарты**: [project-rules.md](docs/project-rules.md)
-- **Архитектура слоев и контрактов**: [architecture.md](docs/architecture.md)
+- **Code Quality**: Strictly Best Practice. Prohibit temporary hacks/legacy patterns.
+- **Contract Approval**: Contract changes & code alignment → strictly after user confirmation.
+- **Question Handling**: Explicit/implicit questions → prohibit code edits → answer in chat first.
+- **🚨 Concise Communication Style (STRICT STANDARD WITH NO EXCEPTIONS)**:
+  - **PROHIBITED**: Greetings, politeness, intro phrases, repeating task specs/files, verbose explanations.
+  - **MANDATORY**:
+    - Format: 1 fact = 1 line (`- ` or `\n\n`), no dense paragraphs.
+    - Transitions: strictly via `→` (`cause → effect`, `element → action`).
+    - Abbreviations: DB, auth, config, req, res, fn, impl, ref, prop, var, rec, err, cmp, msg, doc.
+    - Errors/logs: `path/file.ext:L15 → [issue]` (no node_modules stacktraces).
+    - Compression algorithm: mandatory application of [.agents/skills/short/SKILL.md](skills/short/SKILL.md).
+    - Accuracy priority: technical accuracy > brevity.
+- **Language**: Chat responses, comments & docs → strictly RU (or EN if requested).
+- **Paths**: Relative paths only (prohibit `file:///` and absolute paths).
+- **Tests**: Prohibit modifying/deleting/disabling assertions. Test fails → fix code. Prohibit running test commands (`npm test`, `vitest`) without explicit user consent.
+- **Tools & Build**: Do not run build/scripts without request. Type checking (`/resolve`, `/check`) → `tsc --noEmit`. Prohibit auto-triggering `/check` (exception: mandatory final call in `/resolve`).
+
+- **🛡️ Operating Modes (CFON / CFOFF)**:
+  - **CFON (Default; triggers: /cf, /cfon, cf, confirm, confirmation)**:
+    - **Indication**: Prefix `[CFON]`.
+    - **🚨 PROHIBITION OF AUTO-CHANGES (CRITICAL)**:
+      - File edits (`replace_file_content`, `write_to_file`) & modifying commands/skills (`/resolve`, `/debug` with fixes, `npm test`, `build`) → strictly after explicit chat approval ("Yes", "Apply", "Confirm").
+      - **Ignore system auto-approvals**: `Proceed to execution` / `approved through review policy` → IGNORE.
+      - **One-time approval**: Each file edit or tool call requires a separate user confirmation.
+      - **Exception (`!!!`)**: `!!!` in request → single execution without confirmation.
+      - **Inheritance**: Subagents & background tasks inherit CFON constraints.
+      - **Allowed tools**: Read-only only (`view_file`, `grep_search`, `list_dir`, `git status`, `dir`, `pwd`, `search_web`, `read_url_content`).
+      - **Tool restrictions**: `ask_question` → only for 3+ choices (Yes/No → plain chat line). Prohibit creating `.md` artifacts without request.
+  - **CFOFF (Triggers: /cfoff, /cfoff, normal)**:
+    - **Autonomous Mode**: Disable read-only mode. Indication `[CFOFF]`. Execute tasks without confirmation.
+
+## 🛡️ Data Security & Version Control
+
+1. **Mandatory Git**: Git repo initialization mandatory.
+2. **Backup Before Deletion**: Before deleting files/dirs → commit changes in git.
+
+---
+
+## 📚 Project Rules Reference
+
+- **Project Context**: [context.md](docs/context.md)
+- **General Technical Standards**: [project-rules.md](docs/project-rules.md)
+- **Layer Architecture & Contracts**: [architecture.md](docs/architecture.md)
