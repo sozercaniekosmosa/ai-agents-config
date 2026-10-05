@@ -58,6 +58,3 @@ tmp/
 .archives/
 .cache/
 
-# Project-specific rules (local only)
-rules/*
-

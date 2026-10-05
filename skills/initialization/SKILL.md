@@ -1,7 +1,7 @@
 ---
 name: initialization
 description: >
-  Интерактивное заполнение файлов правил в .agents/rules (context.md, project-rules.md, architecture.md) через диалог с пользователем,
+  Интерактивное заполнение файлов правил в docs (context.md, project-rules.md, architecture.md) через диалог с пользователем,
   а также синхронизация (pull/push) навыков и конфигураций с центральным репозиторием sozercaniekosmosa/ai-agents-config.
   Триггеры: /initialization, "инициализируй проект", "заполни rules", "настрой правила проекта", "инициализация правил", "обнови навыки", "pull rules", "push rules".
 ---
@@ -11,7 +11,7 @@ description: >
 Навык решает 2 ключевые задачи:
 
 1. **Синхронизация с центральным репозиторием** (`sozercaniekosmosa/ai-agents-config`): Загрузка (pull) или публикация (push) обновлений навыков и глобальных стандартов.
-2. **Интерактивное заполнение правил проекта**: Формирование локальных файлов в `.agents/rules/` (`context.md`, `project-rules.md`, `architecture.md`) под текущий проект.
+2. **Интерактивное заполнение правил проекта**: Формирование локальных файлов в `docs/` (`context.md`, `project-rules.md`, `architecture.md`) под текущий проект.
 
 ---
 
@@ -22,7 +22,7 @@ description: >
 1. **Загрузка / Обновление (Pull)**:
    - Вызов: `/initialization pull`, "загрузи", "обнови", "скачай".
    - Действие: Запустить `node .agents/skills/initialization/scripts/sync.cjs pull`
-   - Изоляция: Использует локальный git `.agents/.git`, не затрагивая родительский Git проекта. Игнорирует проектные файлы `rules/*`.
+   - Изоляция: Использует локальный git `.agents/.git`, не затрагивая родительский Git проекта. Игнорирует проектные файлы `docs/*`.
 
 2. **Публикация Изменений (Push)**:
    - Вызов: `/initialization push [сообщение коммита]`, "сохрани", "запуш", "опубликуй", "отправь".
@@ -84,7 +84,7 @@ description: >
    - Изоляция слоев и контракты модулей
 
 4. **Финализация и Инициализация**:
-   - Запись правил в `.agents/rules/`
+   - Запись правил в `docs/`
    - Предложение инициализации проекта и установки зависимостей
 ```
 
@@ -104,9 +104,9 @@ description: >
 
 После согласования всех ответов подставить значения в референсные шаблоны:
 
-- `references/context_template.md` → `.agents/rules/context.md`
-- `references/project_rules_template.md` → `.agents/rules/project-rules.md` (подставить правила слоев согласно выбранной архитектуре из `architecture.md` и лучшие практики стека)
-- `references/architecture_template.md` → `.agents/rules/architecture.md`
+- `references/context_template.md` → `docs/context.md`
+- `references/project_rules_template.md` → `docs/project-rules.md` (подставить правила слоев согласно выбранной архитектуре из `architecture.md` и лучшие практики стека)
+- `references/architecture_template.md` → `docs/architecture.md`
 
 ---
 
